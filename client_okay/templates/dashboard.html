@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Dashboard - Smart Home</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <h2>Benvenuto nella Dashboard, {{ session['username'] }}</h2>
+    <a href="/logout">Logout</a>
+    <form method="POST" action="/dashboard">
+        <label for="start_date">Data Inizio:</label>
+        <input type="date" id="start_date" name="start_date" required
+               {% if earliest_date %}min="{{ earliest_date }}"{% endif %}
+               {% if latest_date %}max="{{ latest_date }}"{% endif %}>
+        <br>
+
+        <label for="end_date">Data Fine:</label>
+        <input type="date" id="end_date" name="end_date" required
+               {% if earliest_date %}min="{{ earliest_date }}"{% endif %}
+               {% if latest_date %}max="{{ latest_date }}"{% endif %}>
+        <br><br>
+
+        <label for="room">Stanza:</label>
+        <select id="room" name="room">
+            {% for r in rooms %}
+            <option value="{{ r }}">{{ r }}</option>
+            {% endfor %}
+        </select>
+        <br><br>
+
+        <button type="submit">Visualizza Dati</button>
+    </form>
+
+    {% if graph %}
+        <h3>Grafico dei dati</h3>
+        {{ graph|safe }}
+    {% endif %}
+
+    {% with messages = get_flashed_messages() %}
+      {% if messages %}
+        <ul>
+          {% for message in messages %}
+            <li>{{ message }}</li>
+          {% endfor %}
+        </ul>
+      {% endif %}
+    {% endwith %}
+</body>
+</html>

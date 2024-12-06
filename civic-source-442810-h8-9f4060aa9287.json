@@ -1,0 +1,13 @@
+{
+  "type": "service_account",
+  "project_id": "civic-source-442810-h8",
+  "private_key_id": "9f4060aa928783574dfde61aa83f357bb00473c6",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEuwIBADANBgkqhkiG9w0BAQEFAASCBKUwggShAgEAAoIBAQCuuY8PJ8I5v8as\nRNcoelFJgt8fTifBz17i2+0Y7yseiwc3WUtMi34j7/CwCDBSgeYBxeL3dTJfP0QX\ngKmwG1TxaiULXxPsMObhskVfIt+o21ymJaoshajLlYGNgP5uBR0oDeVDJudrfSA8\nWX5nbReKMYXjc6k20rGPNXN5LdUfAHy9ZhtHl3AiZN8a3DDwspeoVwN5rm8NzHCf\ndWeQt4aPwkkcvJHDa6svGZ2Pm3KDl4ZEs9JE8LAl8jbCwANwRB90ulodbKxLxI1E\nGLXoKVHtkbq1ZhrsviXZLuj2YwzJ4gDvHnOd+3UozvfLi1eKv7DL/jUtUgipj9Zt\ngCCDs69ZAgMBAAECggEAKSPJ2nCrG7vbBJ7k5kP+tcdZz94wIEM6fUH5TqCpz3Q+\ny7p7r1c86StKybfz4MlzJcG5UjjHFoQn/TyvN6cH1hv/AvFtGHTfOA8opGDqtrCH\n3RsLOZZzCxR1v6K6xZ7woYi8DZawcK+ykmMkDygxnblRZB/MnPr5EdYtDUBMaRLo\nhr/POZ8IiBjyau5y4HdkMQP2VNGRpL/s67jHqGQDNmUFPkacO4csiJG7jP3+MEHp\nwxyjEEyCniD1uMAF0qiWhRsDtzRusCK6rx1GmaMBpE38x40ONYOYxpdHHzAxInGk\nHDQW/KSdfS2y1rIWT1Lc90porSLYpb1SQbP1f+73fQKBgQD2kflKdB0XL8MUG9L+\nIU84cFabLeIf0hVtvd13uLHr2a6aMattDH+2BZVQ5ZRUkphq7whVxjRCmxqQIuVK\nNGIumupQFyaz/FlVH0exF2WLBnFptMhR8k5pXVoZRI3U+0ruQcA8XvAAs4nfy8Gh\nqf8YNlAQyb2/djTdNgWpBcgZqwKBgQC1aDBHgPA/+knkBBTdSkhFBDSCwr/5uSRt\nekrrfpL9oWsilCNNDx+3ppnQjyBdKWJZBApgynW0ySUP7QTFCODPS1y5pHTSZIfs\nR8nwi0Je2GaGGRbc3DZ2fMrpb0CIgbdD0b8dXs34YpHjc8DNMlbHw5hX7M2Ko2vU\nOHyevty/CwKBgDwYZd78n9532J79DRa9PZau4pzduQAybuCZZvH4BP1Lx99y/aoN\nYs8VW0glPFrEg/uEGM73COO28+lvZ90HGWrsfPFaQyeY+Jjjj9CcuDYDMv8lfbFj\nUjMh+oSwDbV8Lc4WHmlYZjx1hcQS4DWrvi3Dhw4gbWvNvqKvuP9yFkwTAoGBAI8+\nlFECCbQbSVmZt3f9/g8xgN14NutUPOWN2bcXHa7VVanaW/2vYZY9IdxECIRH93be\n7+r6M/PrmS54NHn5xrspgTC+Idk4tPPoxBcDgAcwzdQ534nLAd6SMBAgX07rTvFo\noIbqo63s99IpRydBBrF7S8KyJKPC45SSfiVEBT99An9Lmf/x3q6Pi+P/HZ5YKM/c\nuExxKXiz5wUXX4AdpRvBjPRKDbPkLupRl/COrKSPTqIH4XkdGHHANq835V+c+Aae\nMbQAefZ+/OTUZtOiyCCijbhaaDnFw4bDX/rnuIL2cN9OyL64vd9b4h2LeSyTr5Q2\nGsRbJ3pxX29Fbtd75eDo\n-----END PRIVATE KEY-----\n",
+  "client_email": "smart-home-pubsub@civic-source-442810-h8.iam.gserviceaccount.com",
+  "client_id": "101026206185239041335",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/smart-home-pubsub%40civic-source-442810-h8.iam.gserviceaccount.com",
+  "universe_domain": "googleapis.com"
+}

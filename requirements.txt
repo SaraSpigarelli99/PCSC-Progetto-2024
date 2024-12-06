@@ -1,0 +1,6 @@
+pandas~=2.1.4
+mysql-connector-python~=9.1.0
+Flask~=2.3.3
+paho-mqtt~=2.1.0
+PyMySQL~=1.1.1
+matplotlib~=3.8.2
