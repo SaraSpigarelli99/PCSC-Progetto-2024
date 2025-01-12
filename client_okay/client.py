@@ -8,10 +8,10 @@ from google.oauth2 import service_account
 from datetime import datetime
 
 # Configurazioni
-SENSOR_DIRECTORY = "C:/Users/saras/PycharmProjects/OpenSmartHomeData/Measurements"
+SENSOR_DIRECTORY = "C:/Users/Fincibec/OneDrive/Desktop/Pervasive and Cloud Computing/Progetto/OpenSmartHomeData (1)/OpenSmartHomeData/Measurements"
 SEND_INTERVAL = 1  # Intervallo tra l'invio dei dati (in secondi)
 
-key_path = "C:/Users/saras/PycharmProjects/OpenSmartHomeData/civic-source-442810-h8-9f4060aa9287.json"
+key_path = "C:/Users/Fincibec/OneDrive/Desktop/Pervasive and Cloud Computing/Progetto/OpenSmartHomeData (1)/OpenSmartHomeData/civic-source-442810-h8-9f4060aa9287.json"
 credentials = service_account.Credentials.from_service_account_file(key_path)
 
 project_id = "civic-source-442810-h8"
