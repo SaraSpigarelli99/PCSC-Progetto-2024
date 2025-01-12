@@ -10,7 +10,7 @@ import matplotlib.dates as mdates
 import mpld3
 
 app = Flask(__name__, template_folder="template", static_folder='static')
-app.secret_key = 'your_secret_key_here'
+app.secret_key = SECRET_KEY
 
 db_config = {
     "host": "34.121.25.220",
