@@ -2,8 +2,6 @@ import matplotlib
 from flask import Flask, render_template, request, redirect, url_for, session, flash
 import mysql.connector
 import matplotlib.pyplot as plt
-import matplotlib
-matplotlib.use('Agg')
 from datetime import datetime, timedelta
 import pandas as pd
 import matplotlib.dates as mdates
@@ -12,6 +10,7 @@ from secret import SECRET_KEY
 
 app = Flask(__name__, template_folder="template", static_folder='static')
 app.secret_key = SECRET_KEY
+
 
 db_config = {
     "host": "34.121.25.220",
@@ -103,8 +102,23 @@ def dashboard():
     cursor.execute("SELECT DISTINCT SUBSTRING_INDEX(sensor_name, '_', 1) AS room FROM sensor_data")
     rooms = [row['room'] for row in cursor.fetchall()]
 
+    cursor.execute("SELECT sensor_name, MAX(timestamp) AS last_ts FROM sensor_data GROUP BY sensor_name")
+    sensors_data = cursor.fetchall()
     cursor.close()
-    conn.close()
+    conn.close()  # Definisco la soglia di inattività (es: 60 secondi)
+    inactivity_threshold = 600
+    now = datetime.now()
+    inactive_sensors = []
+    for row in sensors_data:
+        sensor = row['sensor_name']
+        last_ts = row['last_ts']
+        if last_ts is not None:
+            diff = now - last_ts
+            if diff.total_seconds() > inactivity_threshold:
+                inactive_sensors.append(sensor)
+    if inactive_sensors:
+        flash(
+            f"Attenzione: i seguenti sensori non producono dati da più di {inactivity_threshold} secondi: {', '.join(inactive_sensors)}")
 
     rooms = sorted(rooms)
     rooms.insert(0, "All")
