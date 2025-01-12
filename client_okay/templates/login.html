@@ -1,22 +1,54 @@
-<!DOCTYPE html>
+<!DOCTYPE HTML>
+<!--
+	Photon by HTML5 UP
+	html5up.net | @ajlkn
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
 <html>
-<head>
-    <title>Login - Smart Home Dashboard</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-</head>
-<body>
-    <h2>Login</h2>
-    <form method="POST" action="/login">
-        <label for="username">Username:</label>
-        <input type="text" id="username" name="username" required>
+	<head>
+		<title>Login - Smart Home Dashboard</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+			<link rel="stylesheet" href="{{ url_for('static', filename='assets/css/main.css') }}">
+<noscript><link rel="stylesheet" href="{{ url_for('static', filename='assets/css/noscript.css') }}"></noscript>
+	</head>
+	<body class="is-preload">
 
-        <label for="password">Password:</label>
-        <input type="password" id="password" name="password" required>
+		<!-- Header -->
+			<section id="header" class="login">
+				<div class="inner">
+					<span class="icon solid major fa-user"></span>
+					<h1 style="font-size: 2em; color: white; margin-bottom: 40px; font-weight: bold;"> Login </h1>
+					<form method="POST" action="/login">
+			
+            <!--  Username  -->
+            
+                <div style="display: flex; justify-content: center; gap: 10px; margin-bottom: 10px;">
+                <div>
+                    <label style="color: white; font-weight: bold; font-size: 1.1em;">Username:</label>
+                    <input type="text" name="username" required
+                           style="width: 180px; background-color: #E5F9EA; color: black; border: 1px solid black #73c276; padding: 10px; border-radius: 5px;">
+                </div>
+                </div>
+            
 
-        <button type="submit">Login</button>
-    </form>
-    <p>Non hai un account? <a href="/register">Registrati qui</a></p>
-    {% with messages = get_flashed_messages() %}
+            <!-- Password e Conferma Password sulla stessa riga -->
+            <div style="display: flex; justify-content: center; gap: 10px; margin-bottom: 10px;">
+                <div>
+                    <label style="color: white; font-weight: bold; font-size: 1.1em;">Password:</label>
+                    <input type="password" name="password" required 
+                           style="width: 180px; background-color: #E5F9EA; color: black; border: 1px solid black #73c276; padding: 10px; border-radius: 5px;">
+                </div>
+                </div>
+
+            <!-- Pulsante di invio -->
+            <button type="submit" class="button primary" 
+                    style="margin-top: 15px; padding: 10px 20px; border-radius: 5px; font-weight: bold; text-align: center;">
+                Login
+            </button>
+					</form>
+				 <p>Non hai un account? <a href="/register">Registrati qui</a></p>
+					{% with messages = get_flashed_messages() %}
       {% if messages %}
         <ul>
           {% for message in messages %}
@@ -25,5 +57,20 @@
         </ul>
       {% endif %}
     {% endwith %}
-</body>
+					
+				</div>
+			</section>
+
+				
+
+		<!-- Scripts -->
+			<script src="{{ url_for('static', filename='assets/js/jquery.min.js') }}"></script>
+<script src="{{ url_for('static', filename='assets/js/jquery.scrolly.min.js') }}"></script>
+<script src="{{ url_for('static', filename='assets/js/browser.min.js') }}"></script>
+<script src="{{ url_for('static', filename='assets/js/breakpoints.min.js') }}"></script>
+<script src="{{ url_for('static', filename='assets/js/util.js') }}"></script>
+<script src="{{ url_for('static', filename='assets/js/main.js') }}"></script>
+
+
+	</body>
 </html>
