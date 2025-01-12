@@ -1,16 +1,16 @@
+import matplotlib
 from flask import Flask, render_template, request, redirect, url_for, session, flash
 import mysql.connector
-from secret import SECRET_KEY
 import matplotlib.pyplot as plt
-from datetime import datetime
-import io
-import base64
+import matplotlib
+matplotlib.use('Agg')
+from datetime import datetime, timedelta
 import pandas as pd
 import matplotlib.dates as mdates
 import mpld3
 
-app = Flask(__name__)
-app.secret_key = SECRET_KEY
+app = Flask(__name__, template_folder="template", static_folder='static')
+app.secret_key = 'your_secret_key_here'
 
 db_config = {
     "host": "34.121.25.220",
@@ -26,7 +26,6 @@ def get_db_connection():
 
 @app.route('/')
 def home():
-    # Reindirizza subito alla pagina di registrazione
     return redirect(url_for('register'))
 
 
@@ -71,7 +70,6 @@ def login():
         conn.close()
 
         if user is None:
-            # Utente non registrato
             flash("Utente non registrato")
             return redirect(url_for('login'))
         else:
@@ -91,7 +89,6 @@ def dashboard():
         flash("Devi effettuare il login per accedere alla dashboard.")
         return redirect(url_for('login'))
 
-    # Recupero il range di date dal db
     conn = get_db_connection()
     cursor = conn.cursor(dictionary=True)
     cursor.execute("SELECT MIN(timestamp) AS earliest, MAX(timestamp) AS latest FROM sensor_data")
@@ -102,37 +99,20 @@ def dashboard():
     earliest_date_str = earliest.strftime('%Y-%m-%d') if earliest else None
     latest_date_str = latest.strftime('%Y-%m-%d') if latest else None
 
-    # Recupero le stanze disponibili
     cursor.execute("SELECT DISTINCT SUBSTRING_INDEX(sensor_name, '_', 1) AS room FROM sensor_data")
     rooms = [row['room'] for row in cursor.fetchall()]
 
-    # Controllo stato sensori (ultimi dati ricevuti)
-    cursor.execute("SELECT sensor_name, MAX(timestamp) AS last_ts FROM sensor_data GROUP BY sensor_name")
-    sensors_data = cursor.fetchall()
     cursor.close()
     conn.close()
 
-    # Definisco la soglia di inattività (es: 60 secondi)
-    inactivity_threshold = 600
-    now = datetime.now()
-    inactive_sensors = []
-    for row in sensors_data:
-        sensor = row['sensor_name']
-        last_ts = row['last_ts']
-        if last_ts is not None:
-            diff = now - last_ts
-            if diff.total_seconds() > inactivity_threshold:
-                inactive_sensors.append(sensor)
-
-    if inactive_sensors:
-        flash(
-            f"Attenzione: i seguenti sensori non producono dati da più di {inactivity_threshold} secondi: {', '.join(inactive_sensors)}")
-
-    # Aggiungo "All" e ordino le stanze
     rooms = sorted(rooms)
     rooms.insert(0, "All")
 
-    graph = None
+    # Date di default se non sono state selezionate
+    start_date_str = datetime.today().strftime('%Y-%m-%d')  # Data di inizio: oggi
+    end_date_str = (datetime.today() + timedelta(days=7)).strftime('%Y-%m-%d')  # Data di fine: tra una settimana
+
+    graph, brightness_graph, humidity_graph = None, None, None
 
     if request.method == 'POST':
         start_date_str = request.form['start_date']
@@ -168,38 +148,92 @@ def dashboard():
         cursor.close()
         conn.close()
 
+
+
         if rows:
             df = pd.DataFrame(rows)
 
             # Gestione duplicati con pivot_table
             df_pivot = df.pivot_table(index='timestamp', columns='sensor_name', values='value', aggfunc='mean')
+            data_table = df_pivot.to_html(classes='data', header=True,
+                                          index=True)  # Imposta index=True per visualizzare il timestamp
+            # Grafico luminosità
+            brightness_sensors = [col for col in df_pivot.columns if 'Brightness' in col]
+            if brightness_sensors:
+                fig, ax = plt.subplots(figsize=(12, 6))
+                df_pivot[brightness_sensors].plot(marker='o', ax=ax, linewidth=0.5)
+                plt.title('Luminosità', fontsize=16)
+                plt.xlabel('Orario', fontsize=14, labelpad=-15)
+                plt.ylabel('Valore', fontsize=14)
+                plt.grid(True)
+                ax.xaxis.set_major_formatter(mdates.DateFormatter('%d-%m %H:%M'))
+                ax.xaxis.set_minor_locator(mdates.HourLocator(interval=1))
+                plt.tight_layout()
+                plt.legend(loc='upper left', bbox_to_anchor=(1, 1), fontsize=12)  # Posizione esterna al grafico
+                plt.subplots_adjust(right=0.8)
 
-            fig, ax = plt.subplots(figsize=(12, 8))
-            df_pivot.plot(marker='o', ax=ax)
+                for line in ax.lines:
+                        labels = [f'{value:.2f}' for value in
+                                  df_pivot[brightness_sensors].values.flatten()]  # Format: valore con 2 decimali
+                        tooltip = mpld3.plugins.PointLabelTooltip(ax.lines[0], labels=labels)
+                        mpld3.plugins.connect(fig, tooltip)
 
-            if selected_room == "All":
-                plt.title('Dati sensori - Tutta la casa')
-            else:
-                plt.title(f'Dati sensori per la stanza: {selected_room}')
+                brightness_graph = mpld3.fig_to_html(fig)
 
-            plt.xlabel('Data/Ora')
-            plt.ylabel('Valore')
-            plt.grid(True)
-            plt.legend(title='Sensori', bbox_to_anchor=(1.05, 1), loc='upper left')
+            # Grafico umidità
+            humidity_sensors = [col for col in df_pivot.columns if 'Humidity' in col]
+            if humidity_sensors:
+                fig, ax = plt.subplots(figsize=(12, 6))
+                df_pivot[humidity_sensors].plot(marker='o', ax=ax, linewidth=0.5)
+                plt.title('Umidità', fontsize=16)
+                plt.xlabel('Orario', fontsize=14, labelpad=-15)
+                plt.ylabel('Valore', fontsize=14)
+                plt.grid(True)
+                ax.xaxis.set_major_formatter(mdates.DateFormatter('%d-%m %H:%M'))
+                ax.xaxis.set_minor_locator(mdates.HourLocator(interval=1))
+                plt.tight_layout()
+                plt.legend(loc='upper left', bbox_to_anchor=(1, 1), fontsize=12)  # Posizione esterna al grafico
+                plt.subplots_adjust(right=0.8)
 
-            # Formattazione asse X per data/ora
-            ax.xaxis.set_major_formatter(mdates.DateFormatter('%d-%m %H:%M'))
-            ax.xaxis.set_minor_locator(mdates.HourLocator(interval=1))
-            plt.tight_layout()
+                for line in ax.lines:
+                        labels = [f'{value:.2f}' for value in
+                                  df_pivot[humidity_sensors].values.flatten()]  # Format: valore con 2 decimali
+                        tooltip = mpld3.plugins.PointLabelTooltip(ax.lines[0], labels=labels)
+                        mpld3.plugins.connect(fig, tooltip)
 
-            # Grafico interattivo con mpld3
-            graph = mpld3.fig_to_html(fig)
+                humidity_graph = mpld3.fig_to_html(fig)
+
+            # Grafico altri dati
+            other_sensors = [col for col in df_pivot.columns if 'Brightness' not in col and 'Humidity' not in col]
+            if other_sensors:
+                fig, ax = plt.subplots(figsize=(14, 8))
+                df_pivot[other_sensors].plot(marker='o', ax=ax, linewidth=0.5)
+                plt.title('Temperatura', fontsize=16)
+                plt.xlabel('Orario', fontsize=14, labelpad=-15)
+                plt.ylabel('Valore', fontsize=14)
+                plt.grid(True)
+                ax.xaxis.set_major_formatter(mdates.DateFormatter('%d-%m %H:%M'))
+                ax.xaxis.set_minor_locator(mdates.HourLocator(interval=1))
+                plt.tight_layout()
+                plt.legend(loc='upper left', bbox_to_anchor=(1, 1), fontsize=12)  # Posizione esterna al grafico
+                plt.subplots_adjust(right=0.8)
+                for line in ax.lines:
+                        labels = [f'{value:.2f}' for value in
+                        df_pivot[other_sensors].values.flatten()]  # Format: valore con 2 decimali
+                        tooltip = mpld3.plugins.PointLabelTooltip(ax.lines[0], labels=labels)
+                        mpld3.plugins.connect(fig, tooltip)
+
+                graph = mpld3.fig_to_html(fig)
 
     return render_template('dashboard.html',
                            graph=graph,
+                           brightness_graph=brightness_graph,
+                           humidity_graph=humidity_graph,
                            earliest_date=earliest_date_str,
                            latest_date=latest_date_str,
-                           rooms=rooms)
+                           rooms=rooms,
+                           start_date=start_date_str,
+                           end_date=end_date_str)
 
 
 @app.route('/logout')
