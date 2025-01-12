@@ -8,6 +8,7 @@ from datetime import datetime, timedelta
 import pandas as pd
 import matplotlib.dates as mdates
 import mpld3
+from secret import SECRET_KEY
 
 app = Flask(__name__, template_folder="template", static_folder='static')
 app.secret_key = SECRET_KEY
