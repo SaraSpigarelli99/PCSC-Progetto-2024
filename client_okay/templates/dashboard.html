@@ -1,49 +1,86 @@
-<!DOCTYPE html>
+<!DOCTYPE HTML>
 <html>
 <head>
     <title>Dashboard - Smart Home</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='assets/css/main.css') }}">
 </head>
 <body>
-    <h2>Benvenuto nella Dashboard, {{ session['username'] }}</h2>
-    <a href="/logout">Logout</a>
-    <form method="POST" action="/dashboard">
-        <label for="start_date">Data Inizio:</label>
-        <input type="date" id="start_date" name="start_date" required
-               {% if earliest_date %}min="{{ earliest_date }}"{% endif %}
-               {% if latest_date %}max="{{ latest_date }}"{% endif %}>
-        <br>
+    <section id="header">
+        <div class="inner">
+            <a href="/logout" style="color: #FF0000; font-size: 16px; font-weight: bold; margin-right: 20px;">Logout</a>
 
-        <label for="end_date">Data Fine:</label>
-        <input type="date" id="end_date" name="end_date" required
-               {% if earliest_date %}min="{{ earliest_date }}"{% endif %}
-               {% if latest_date %}max="{{ latest_date }}"{% endif %}>
-        <br><br>
 
-        <label for="room">Stanza:</label>
-        <select id="room" name="room">
-            {% for r in rooms %}
-            <option value="{{ r }}">{{ r }}</option>
-            {% endfor %}
-        </select>
-        <br><br>
+            <h2 style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; font-size: 40px; color: #2c3e50; font-weight: bold; text-align: center; text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1); margin-top: 20px;">
+                Benvenuto nella Dashboard, {{ session['username'] }} </h2>
 
-        <button type="submit">Visualizza Dati</button>
-    </form>
+            <form method="POST" action="/dashboard">
+                <label for="start_date">Data Inizio:</label>
+                <input type="date" id="start_date" name="start_date" required
+                       {% if earliest_date %}min="{{ earliest_date }}"{% endif %}
+                       {% if latest_date %}max="{{ latest_date }}"{% endif %}
+                        style="font-size: 20px; padding: 10px; width: 100%; margin-bottom: 20px;">
+                <label for="end_date">Data Fine:</label>
+                <input type="date" id="end_date" name="end_date" required
+                       {% if earliest_date %}min="{{ earliest_date }}"{% endif %}
+                       {% if latest_date %}max="{{ latest_date }}"{% endif %}
+                        style="font-size: 20px; padding: 10px; width: 100%; margin-bottom: 20px;">
+                <label for="room">Stanza:</label>
+                <select id="room" name="room" style="font-size: 20px; padding: 10px; width: 100%; margin-bottom: 20px;">
+                    {% for r in rooms %}
+                        <option value="{{ r }}">{{ r }}</option>
+                    {% endfor %}
+                </select>
+                <button type="submit">Visualizza Dati</button>
+            </form>
+            <br><br>
 
-    {% if graph %}
-        <h3>Grafico dei dati</h3>
-        {{ graph|safe }}
-    {% endif %}
+             {% with messages = get_flashed_messages() %}
+                {% if messages %}
+                    <ul>
+                        {% for message in messages %}
+                            <li>{{ message }}</li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+            {% endwith %}
+            <br><br>
 
-    {% with messages = get_flashed_messages() %}
-      {% if messages %}
-        <ul>
-          {% for message in messages %}
-            <li>{{ message }}</li>
-          {% endfor %}
-        </ul>
-      {% endif %}
-    {% endwith %}
+            {% if brightness_graph %}
+               <h3 style="font-size: 24px; font-weight: bold; color: #555555;">
+                    Grafico della Luminosità
+                    <span style="font-size: 16px; font-weight: normal; color: #F7F5F5;">
+                    (Data selezionata: {{ start_date }} - {{ end_date }})
+                    </span>
+                </h3>
+                {{ brightness_graph|safe }}
+            {% endif %}
+
+            {% if humidity_graph %}
+                <h3 style="font-size: 24px; font-weight: bold; color: #555555;">
+                    Grafico dell'Umidità
+                    <span style="font-size: 16px; font-weight: normal; color: #F7F5F5;">
+                    (Data selezionata: {{ start_date }} - {{ end_date }})
+                    </span>
+                </h3>
+                {{ humidity_graph|safe }}
+            {% endif %}
+
+            {% if graph %}
+                <h3 style="font-size: 24px; font-weight: bold; color: #555555;">
+                    Grafico delle Temperature
+                    <span style="font-size: 16px; font-weight: normal; color: #F7F5F5;">
+                    (Data selezionata: {{ start_date }} - {{ end_date }})
+                    </span>
+                </h3>
+                {{ graph|safe }}
+            {% else %}
+                <p style="color: red; font-weight: bold;">Nessun dato disponibile per il range selezionato.</p>
+            {% endif %}
+
+
+        </div>
+    </section>
 </body>
 </html>
