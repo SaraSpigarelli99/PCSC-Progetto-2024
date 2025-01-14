@@ -11,42 +11,49 @@
         <div class="inner">
             <a href="/logout" style="color: #FF0000; font-size: 16px; font-weight: bold; margin-right: 20px;">Logout</a>
 
-
             <h2 style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; font-size: 40px; color: #2c3e50; font-weight: bold; text-align: center; text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1); margin-top: 20px;">
-                Benvenuto nella Dashboard, {{ session['username'] }} </h2>
+                Benvenuto nella Dashboard, {{ session['username'] }}
+            </h2>
 
-            <form method="POST" action="/dashboard">
+            <!-- Sezione messaggi flash -->
+            {% with messages = get_flashed_messages() %}
+                {% if messages %}
+                    <div class="alert-container" style="margin-top: 20px;">
+                        <div class="alert alert-warning" style="background-color: #FFD700; padding: 15px; border-radius: 5px; font-size: 18px; color: #000; text-align: center;">
+                            {% for message in messages %}
+                                <p style="margin: 0;">{{ message }}</p>
+                            {% endfor %}
+                        </div>
+                    </div>
+                {% endif %}
+            {% endwith %}
+
+            <form method="POST" action="/dashboard" style="margin-top: 30px;">
                 <label for="start_date">Data Inizio:</label>
                 <input type="date" id="start_date" name="start_date" required
                        {% if earliest_date %}min="{{ earliest_date }}"{% endif %}
                        {% if latest_date %}max="{{ latest_date }}"{% endif %}
                         style="font-size: 20px; padding: 10px; width: 100%; margin-bottom: 20px;">
+
                 <label for="end_date">Data Fine:</label>
                 <input type="date" id="end_date" name="end_date" required
                        {% if earliest_date %}min="{{ earliest_date }}"{% endif %}
                        {% if latest_date %}max="{{ latest_date }}"{% endif %}
                         style="font-size: 20px; padding: 10px; width: 100%; margin-bottom: 20px;">
+
                 <label for="room">Stanza:</label>
                 <select id="room" name="room" style="font-size: 20px; padding: 10px; width: 100%; margin-bottom: 20px;">
                     {% for r in rooms %}
                         <option value="{{ r }}">{{ r }}</option>
                     {% endfor %}
                 </select>
-                <button type="submit">Visualizza Dati</button>
+                <button type="submit" style="font-size: 20px; padding: 10px; background-color: #4CAF50; color: white; border: none; cursor: pointer;">
+                    Visualizza Dati
+                </button>
             </form>
             <br><br>
 
-             {% with messages = get_flashed_messages() %}
-                {% if messages %}
-                    <ul>
-                        {% for message in messages %}
-                            <li>{{ message }}</li>
-                        {% endfor %}
-                    </ul>
-                {% endif %}
-            {% endwith %}
-            <br><br>
-
+            <!-- Grafici -->
             {% if brightness_graph %}
                <h3 style="font-size: 24px; font-weight: bold; color: #555555;">
                     Grafico della Luminosità
@@ -78,8 +85,6 @@
             {% else %}
                 <p style="color: red; font-weight: bold;">Nessun dato disponibile per il range selezionato.</p>
             {% endif %}
-
-
         </div>
     </section>
 </body>
