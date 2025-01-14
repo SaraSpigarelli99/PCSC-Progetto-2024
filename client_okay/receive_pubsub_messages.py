@@ -4,16 +4,18 @@ from google.cloud import pubsub_v1
 from google.oauth2 import service_account
 from datetime import datetime
 
+# === CONFIGURAZIONI GOOGLE PUB/SUB ===
 key_path = "C:/Users/Fincibec/OneDrive/Desktop/Pervasive and Cloud Computing/Progetto/OpenSmartHomeData (1)/OpenSmartHomeData/civic-source-442810-h8-9f4060aa9287.json"
 credentials = service_account.Credentials.from_service_account_file(key_path)
 project_id = "civic-source-442810-h8"
 subscription_id = "smart_home_subscriptions"
 
+# === CONFIGURAZIONI DATABASE ===
 db_config = {
-    "host": "34.121.25.220",
-    "user": "smart-home-utente",
+    "host": "34.154.88.50",
+    "user": "smart-home-utente2",
     "password": "Ragnetto.99",
-    "database": "smart-home-db"
+    "database": "smart-home-db2"
 }
 
 
@@ -23,9 +25,7 @@ def save_to_database(data):
         conn = mysql.connector.connect(**db_config)
         cursor = conn.cursor()
 
-        unix_ts = float(data["timestamp"])
-        dt = datetime.fromtimestamp(
-            unix_ts)  # dt dovrebbe essere l'ora corrente se inviato da client.py con datetime.now()
+        dt = datetime.now()
 
         # DEBUG: stampa il timestamp per capire se è attuale
         print(f"Sto per inserire dati con timestamp={dt} (now={datetime.now()})")
