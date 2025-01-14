@@ -1,24 +1,22 @@
-import matplotlib
-from flask import Flask, render_template, request, redirect, url_for, session, flash
 import mysql.connector
 import matplotlib.pyplot as plt
-from datetime import datetime, timedelta
+import mpld3
 import pandas as pd
 import matplotlib.dates as mdates
-import mpld3
+
+from flask import Flask, render_template, request, redirect, url_for, session, flash
+from datetime import datetime, timedelta
 from secret import SECRET_KEY
 
 app = Flask(__name__, template_folder="template", static_folder='static')
 app.secret_key = SECRET_KEY
 
-
 db_config = {
-    "host": "34.121.25.220",
-    "user": "smart-home-utente",
+    "host": "34.154.88.50",
+    "user": "smart-home-utente2",
     "password": "Ragnetto.99",
-    "database": "smart-home-db"
+    "database": "smart-home-db2"
 }
-
 
 def get_db_connection():
     return mysql.connector.connect(**db_config)
