@@ -7,13 +7,15 @@ from google.cloud import pubsub_v1
 from google.oauth2 import service_account
 from datetime import datetime
 
-# Configurazioni
+# === CONFIGURAZIONI ===
 SENSOR_DIRECTORY = "C:/Users/Fincibec/OneDrive/Desktop/Pervasive and Cloud Computing/Progetto/OpenSmartHomeData (1)/OpenSmartHomeData/Measurements"
-SEND_INTERVAL = 1  # Intervallo tra l'invio dei dati (in secondi)
+SEND_INTERVAL = 1  # secondi di attesa tra invii
 
+# Credenziali GCP
 key_path = "C:/Users/Fincibec/OneDrive/Desktop/Pervasive and Cloud Computing/Progetto/OpenSmartHomeData (1)/OpenSmartHomeData/civic-source-442810-h8-9f4060aa9287.json"
 credentials = service_account.Credentials.from_service_account_file(key_path)
 
+# Config Pub/Sub
 project_id = "civic-source-442810-h8"
 topic_id = "smart_home_data"
 client = pubsub_v1.PublisherClient(credentials=credentials)
