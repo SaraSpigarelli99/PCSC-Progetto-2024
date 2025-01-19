@@ -5,13 +5,11 @@ from google.oauth2 import service_account
 from datetime import datetime, timedelta
 from collections import defaultdict
 
-# === CONFIGURAZIONI GOOGLE PUB/SUB ===
-key_path = "C:/Users/saras/PycharmProjects/OpenSmartHomeData-master/civic-source-442810-h8-9f4060aa9287.json"
+key_path = "C:/Users/Fincibec/OneDrive/Desktop/Pervasive and Cloud Computing/Progetto/OpenSmartHomeData (1)/OpenSmartHomeData/civic-source-442810-h8-9f4060aa9287.json"
 credentials = service_account.Credentials.from_service_account_file(key_path)
 project_id = "civic-source-442810-h8"
-subscription_id = "smart_home_subscriptions2"
+subscription_id = "smart_home_subscriptions3"
 
-# === CONFIGURAZIONI DATABASE ===
 db_config = {
     "host": "34.154.88.50",
     "user": "smart-home-utente2",
@@ -19,9 +17,7 @@ db_config = {
     "database": "smart-home-db2"
 }
 
-# Dizionario per monitorare l'ultimo timestamp per sensore
 sensor_last_seen = defaultdict(lambda: None)
-
 
 def save_to_database(data):
     conn = None
@@ -40,7 +36,6 @@ def save_to_database(data):
             if sensor_name in sensor_last_seen and sensor_last_seen[sensor_name] is None:
                 print(f"Sensor {sensor_name} is active again.")
 
-            # Aggiorna l'ultimo timestamp del sensore
             sensor_last_seen[sensor_name] = current_time
             print(f"Salvataggio: Sensore={sensor_name}, Valore={valore}, Timestamp={current_time}")
 
@@ -51,7 +46,6 @@ def save_to_database(data):
             """
             cursor.execute(query, (current_time, sensor_name, valore))
 
-        # Mostra lo stato attuale di `sensor_last_seen`
         print("Stato attuale dei sensori:")
         for sensor, last_seen in sensor_last_seen.items():
             print(f" - {sensor}: Ultima lettura registrata alle {last_seen}")
@@ -75,12 +69,10 @@ def check_inactive_sensors():
         if last_seen and (current_time - last_seen > inactivity_threshold):
             inactive_sensors.append(sensor)
 
-    # Mostra i sensori inattivi
     if inactive_sensors:
         print(f"Sensori inattivi rilevati: {inactive_sensors}")
     else:
         print("Tutti i sensori sono attivi.")
-
     return inactive_sensors
 
 
@@ -94,7 +86,6 @@ def callback(message):
     except Exception as e:
         print(f"Errore nella gestione del messaggio: {e}")
         message.nack()
-
 
 def subscribe():
     subscriber = pubsub_v1.SubscriberClient(credentials=credentials)
