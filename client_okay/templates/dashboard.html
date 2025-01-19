@@ -64,6 +64,13 @@
                 {{ brightness_graph|safe }}
             {% endif %}
 
+            {% if brightness_line_graph %}
+                 <h3 style="font-size: 24px; font-weight: bold; color: #555555;">
+                    Distribuzione delle misurazioni di luminosità nelle 24 ore
+                </h3>
+                {{ brightness_line_graph|safe }}
+            {% endif %}
+
             {% if humidity_graph %}
                 <h3 style="font-size: 24px; font-weight: bold; color: #555555;">
                     Grafico dell'Umidità
@@ -74,16 +81,29 @@
                 {{ humidity_graph|safe }}
             {% endif %}
 
-            {% if graph %}
+            {% if humidity_line_graph %}
+                 <h3 style="font-size: 24px; font-weight: bold; color: #555555;">
+                    Distribuzione delle misurazioni di umidità nelle 24 ore
+                </h3>
+                {{ humidity_line_graph|safe }}
+            {% endif %}
+
+            {% if temperatures_graph %}
                 <h3 style="font-size: 24px; font-weight: bold; color: #555555;">
                     Grafico delle Temperature
                     <span style="font-size: 16px; font-weight: normal; color: #F7F5F5;">
                     (Data selezionata: {{ start_date }} - {{ end_date }})
                     </span>
                 </h3>
-                {{ graph|safe }}
+                {{ temperatures_graph|safe }}
             {% else %}
                 <p style="color: red; font-weight: bold;">Nessun dato disponibile per il range selezionato.</p>
+            {% endif %}
+            {% if temperatures_box_graph %}
+                 <h3 style="font-size: 24px; font-weight: bold; color: #555555;">
+                    Distribuzione delle misurazioni di temperatura nelle 24 ore
+                </h3>
+                {{ temperatures_box_graph|safe }}
             {% endif %}
         </div>
     </section>
