@@ -10,89 +10,83 @@
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
 		<link rel="stylesheet" href="{{ url_for('static', filename='assets/css/main.css') }}">
-<noscript><link rel="stylesheet" href="{{ url_for('static', filename='assets/css/noscript.css') }}"></noscript>
+        <noscript><link rel="stylesheet" href="{{ url_for('static', filename='assets/css/noscript.css') }}"></noscript>
 	</head>
+    
 	<body class="is-preload">
 
 		<!-- Header -->
-			<section id="header" class="register">
-				<div class="inner">
-					<span class="icon solid major fa-user-plus"></span>
-					<h1 style="font-size: 2em; color: white; margin-bottom: 40px; font-weight: bold;"> Registrazione Utenti </h1>
-					<form method="POST" action="/register">
-			 <!-- Nome e Cognome sulla stessa riga -->
-            <div style="display: flex; justify-content: center; gap: 10px; margin-bottom: 10px;">
-                <div>
-                    <label style="color: white; font-weight: bold; font-size: 1.1em;">Nome:</label>
-                    <input type="text" name="nome" required 
-                           style="width: 180px; background-color: #E5F9EA; color: black; border: 1px solid black #73c276; padding: 10px; border-radius: 5px;">
-                </div>
-                <div>
-                    <label style="color: white; font-weight: bold; font-size: 1.1em;">Cognome:</label>
-                    <input type="text" name="cognome" required 
-                           style="width: 180px; background-color: #E5F9EA; color: black; border: 1px solid black #73c276; padding: 10px; border-radius: 5px;">
-                </div>
-            </div>
+        <section id="header" class="register">
+            <div class="inner">
+                <span class="icon solid major fa-user-plus"></span>
+                <h1 style="font-size: 2em; color: white; margin-bottom: 40px; font-weight: bold;"> Registrazione Utenti </h1>
+                <form method="POST" action="/register">
+                    
+                     <!-- Nome e Cognome -->
+                    <div style="display: flex; justify-content: center; gap: 10px; margin-bottom: 10px;">
+                        <div>
+                            <label style="color: white; font-weight: bold; font-size: 1.1em;">Nome:</label>
+                            <input type="text" name="nome" required style="width: 180px; background-color: #E5F9EA; color: black; border: 1px solid black #73c276; padding: 10px; border-radius: 5px;">
+                        </div>
+                        <div>
+                            <label style="color: white; font-weight: bold; font-size: 1.1em;">Cognome:</label>
+                            <input type="text" name="cognome" required style="width: 180px; background-color: #E5F9EA; color: black; border: 1px solid black #73c276; padding: 10px; border-radius: 5px;">
+                        </div>
+                    </div>
 
-            <!-- Codice SmartHouse e Username sulla stessa riga -->
-            <div style="display: flex; justify-content: center; gap: 10px; margin-bottom: 10px;">
-                <div>
-                    <label style="color: white; font-weight: bold; font-size: 1.1em;">Codice SmartHouse:</label>
-                    <input type="text" name="smarthouse_code" required 
-                           style="width: 180px; background-color: #E5F9EA; color: black; border: 1px solid black #73c276; padding: 10px; border-radius: 5px;">
-                </div>
-                <div>
-                    <label style="color: white; font-weight: bold; font-size: 1.1em;">Username:</label>
-                    <input type="text" name="username" required 
-                           style="width: 180px; background-color: #E5F9EA; color: black; border: 1px solid black #73c276; padding: 10px; border-radius: 5px;">
-                </div>
-            </div>
+                    <!-- Codice SmartHome e Username -->
+                    <div style="display: flex; justify-content: center; gap: 10px; margin-bottom: 10px;">
+                        <div>
+                            <label style="color: white; font-weight: bold; font-size: 1.1em;">Codice SmartHome:</label>
+                            <input type="text" name="smarthome_code" required style="width: 180px; background-color: #E5F9EA; color: black; border: 1px solid black #73c276; padding: 10px; border-radius: 5px;">
+                        </div>
+                        <div>
+                            <label style="color: white; font-weight: bold; font-size: 1.1em;">Username:</label>
+                            <input type="text" name="username" required style="width: 180px; background-color: #E5F9EA; color: black; border: 1px solid black #73c276; padding: 10px; border-radius: 5px;">
+                        </div>
+                    </div>
 
-            <!-- Password e Conferma Password sulla stessa riga -->
-            <div style="display: flex; justify-content: center; gap: 10px; margin-bottom: 10px;">
-                <div>
-                    <label style="color: white; font-weight: bold; font-size: 1.1em;">Password:</label>
-                    <input type="password" name="password" required 
-                           style="width: 180px; background-color: #E5F9EA; color: black; border: 1px solid black #73c276; padding: 10px; border-radius: 5px;">
-                </div>
-                <div>
-                    <label style="color: white; font-weight: bold; font-size: 1.1em;">Conferma Password:</label>
-                    <input type="password" name="confirm_password" required 
-                           style="width: 180px; background-color: #E5F9EA; color: black; border: 1px solid black #73c276; padding: 10px; border-radius: 5px;">
-                </div>
-            </div>
+                    <!-- Password e Conferma Password  -->
+                    <div style="display: flex; justify-content: center; gap: 10px; margin-bottom: 10px;">
+                        <div>
+                            <label style="color: white; font-weight: bold; font-size: 1.1em;">Password:</label>
+                            <input type="password" name="password" required style="width: 180px; background-color: #E5F9EA; color: black; border: 1px solid black #73c276; padding: 10px; border-radius: 5px;">
+                        </div>
+                        <div>
+                            <label style="color: white; font-weight: bold; font-size: 1.1em;">Conferma Password:</label>
+                            <input type="password" name="confirm_password" required style="width: 180px; background-color: #E5F9EA; color: black; border: 1px solid black #73c276; padding: 10px; border-radius: 5px;">
+                        </div>
+                    </div>
 
-            <!-- Pulsante di invio -->
-            <button type="submit" class="button primary" 
-                    style="margin-top: 15px; padding: 10px 20px; border-radius: 5px; font-weight: bold; text-align: center;">
-                Registrati
-            </button>
-					</form>
-				<p>Hai già un account? <a href="/login">Accedi qui</a></p>	
+                    <!-- Pulsante di invio -->
+                    <button type="submit" class="button primary" 
+                            style="margin-top: 15px; padding: 10px 20px; border-radius: 5px; font-weight: bold; text-align: center;">
+                        Registrati
+                    </button>
+                </form>
+				
+                <p>Hai già un account? <a href="/login">Accedi qui</a></p>	
 					{% with messages = get_flashed_messages() %}
-      {% if messages %}
-        <ul>
-          {% for message in messages %}
-            <li>{{ message }}</li>
-          {% endfor %}
-        </ul>
-      {% endif %}
-    {% endwith %}
+                        {% if messages %}
+                            <ul>
+                             {% for message in messages %}
+                                <li>{{ message }}</li>
+                            {% endfor %}
+                             </ul>
+                        {% endif %}
+                    {% endwith %}
 					
-				</div>
-			</section>
+            </div>
+        </section>
 
 				
-
-		<!-- Scripts -->
-			<script src="{{ url_for('static', filename='assets/js/jquery.min.js') }}"></script>
-<script src="{{ url_for('static', filename='assets/js/jquery.scrolly.min.js') }}"></script>
-<script src="{{ url_for('static', filename='assets/js/browser.min.js') }}"></script>
-<script src="{{ url_for('static', filename='assets/js/breakpoints.min.js') }}"></script>
-<script src="{{ url_for('static', filename='assets/js/util.js') }}"></script>
-<script src="{{ url_for('static', filename='assets/js/main.js') }}"></script>
-
-
+        <!-- Scripts -->
+        <script src="{{ url_for('static', filename='assets/js/jquery.min.js') }}"></script>
+        <script src="{{ url_for('static', filename='assets/js/jquery.scrolly.min.js') }}"></script>
+        <script src="{{ url_for('static', filename='assets/js/browser.min.js') }}"></script>
+        <script src="{{ url_for('static', filename='assets/js/breakpoints.min.js') }}"></script>
+        <script src="{{ url_for('static', filename='assets/js/util.js') }}"></script>
+        <script src="{{ url_for('static', filename='assets/js/main.js') }}"></script>
 
 	</body>
 </html>
